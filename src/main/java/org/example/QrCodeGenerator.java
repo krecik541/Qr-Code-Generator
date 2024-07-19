@@ -309,20 +309,16 @@ public class QrCodeGenerator {
     public static void main(String[] args) {
         QrCodeGenerator qrCodeGenerator = new QrCodeGenerator();
         Reader reader = new InputStreamReader(System.in);
-        /*qrCodeGenerator.input = "132465";
-        System.out.println(qrCodeGenerator.analyzeCharacters());
-        qrCodeGenerator.input = "132465a";
-        System.out.println(qrCodeGenerator.analyzeCharacters());
-        qrCodeGenerator.input = "132465A";
-        System.out.println(qrCodeGenerator.analyzeCharacters());
-        qrCodeGenerator.input = "茗茗茗荷荷荷荷";
-        System.out.println(qrCodeGenerator.analyzeCharacters());*/
-        qrCodeGenerator.input = "HELLO WORLD";
+
+        qrCodeGenerator.input = "https://www.twitch.tv/izakooo";
         qrCodeGenerator.errCorrLevel = 2;
+
         qrCodeGenerator.analyzeCharacters();
         qrCodeGenerator.createDataSegment();
         qrCodeGenerator.fitToVersionNumber();
         qrCodeGenerator.addPaddingBytes();
-        ErrorCorrectionCode ecc = new ErrorCorrectionCode();
+        ErrorCorrectionCode ecc = new ErrorCorrectionCode(qrCodeGenerator.versionNumber, qrCodeGenerator.errCorrLevel, qrCodeGenerator.encodedInput);
+        // DrawQR draw = new DrawQR(qrCodeGenerator.versionNumber);
+        DrawQR draw = new DrawQR(qrCodeGenerator.versionNumber, ecc.getFinalMessage(), qrCodeGenerator.errCorrLevel);
     }
 }
